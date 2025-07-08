@@ -12,7 +12,7 @@ private:
     string accessCode;  
 public:
     EBook(const string& name, const string& id, const string& author,
-        bool flag,const string& format, const string& downloadUrl, const string& accessCode);
+        const string& format, const string& downloadUrl, const string& accessCode, bool flag = 1);
     virtual ~EBook();
     virtual void Display();
     virtual string Get_name();

@@ -19,7 +19,9 @@ class Library
 private:
 	vector<Item*> items;
 	vector<User> users;
-
+	string usersFilePath = "users.txt";
+	string booksFilePath = "books.txt";
+	
 public:
 	Library();
 	~Library();
@@ -29,16 +31,23 @@ public:
 	void Deleteuser(User& user);
 
 	void Additem_Admin(Item* item);
-	Item* Finditem(string& name,string& id);
+	Item* Finditem(string& name,string& id,string& author);
 	void Deleteitem_Admin(Item* item);
 	void Display_item();
-
 	void Adduser_Admin(User& user);
 	void Deleteuser_Admin(User& user);
 	void Displayuser_Admin();
 
 	bool Isuser(User& user);
 
+	vector<Item*> Search(string& keywords);
+
+
+	void SaveUsersToFile();  
+	void LoadUsersFromFile();
+	
+	void SaveBooksToFile(); 
+	void LoadBooksFromFile();
 };
 
 #endif 

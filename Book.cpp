@@ -4,14 +4,14 @@
 using namespace std;
 
 Book::Book(const string & name, const string& id, const string& author,bool flag):
-	Item(name,id), author(author), flag(flag){ }
+	Item(name,id,author,flag){ }
 
 Book::~Book(){}
 
 void Book::Display()
 {
-	cout << "标题: 《" << Get_name()<<"》" << endl << "ISBN: " << Get_id() << endl << "作者：" << author << endl;
-	if (flag == 1)
+	cout << "标题: 《" << Get_name()<<"》" << endl << "ISBN: " << Get_id() << endl << "作者：" << Get_author() << endl;
+	if (Get_flag() )
 	{
 		cout << "电子书籍状态: 是"<<endl;
 
@@ -33,12 +33,12 @@ string Book::Get_id()
 
 string Book::Get_author()
 {
-	return author;
+	return Item::Get_author();
 }
 
 bool Book::Get_flag()
 {
-	return flag;
+	return Item::Get_flag();
 }
 
 void Book::Set_flag(bool flag1)

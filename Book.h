@@ -8,7 +8,7 @@ using namespace std;
 class Book :public Item
 {
 private:
-	string author;
+	
 	bool flag;
 public:
 	Book(const string& name, const string& id, const string& author, bool flag);

@@ -4,7 +4,7 @@
 using namespace std;
 
 EBook::EBook(const string& name, const string& id, const string& author,
-	bool flag, const string& format, const string& downloadUrl, const string& accessCode) :
+	 const string& format, const string& downloadUrl, const string& accessCode, bool flag) :
 	Book(name ,id, author,flag), format(format),downloadUrl(downloadUrl),accessCode(accessCode) {
 }
 

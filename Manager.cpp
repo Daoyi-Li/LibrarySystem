@@ -45,3 +45,13 @@ void Manager::Deleteuser(User& user)
 {
 	library.Deleteuser_Admin(user);
 }
+
+void Manager::Displayitem()
+{
+	library.Display_item();
+}
+
+void Manager::Displayuser()
+{
+	library.Displayuser_Admin();
+}

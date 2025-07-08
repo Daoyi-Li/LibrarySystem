@@ -24,8 +24,9 @@ public:
 	void Deleteitem(Item* item);
 	void Adduser(User& user);
 	void Deleteuser(User& user);
+	void Displayitem();
+	void Displayuser();
 };
-
 
 #endif 
 
