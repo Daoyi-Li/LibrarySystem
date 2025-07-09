@@ -21,6 +21,8 @@ private:
 	vector<User> users;
 	string usersFilePath = "users.txt";
 	string booksFilePath = "books.txt";
+	string maxIdFilePath = "max_user_id.txt";
+	int user_num;
 	
 public:
 	Library();
@@ -48,6 +50,11 @@ public:
 	
 	void SaveBooksToFile(); 
 	void LoadBooksFromFile();
+	void SaveNumToFile();
+	void LoadNumFromFile();
+
+	int Getitem_num();
+	int Getuser_num();
 };
 
 #endif 

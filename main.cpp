@@ -17,24 +17,24 @@ bool EXIT=0;
 
 using namespace std;
 
-void Set(Library& library, int& user_num, Manager& manager);
+void Set(Library& library, Manager& manager);
 void Run();
-void Usermenu(Library& library, int& user_num, Manager& manager);
-void User_function(Library& library, int& user_num, User& user, Manager& manager);
-void User_function_borrow(Library& library, int& user_num, User& user, Manager& manager);
-void User_function_return(Library& library, int& user_num, User& user, Manager& manager);
-void User_function_search(Library& library, int& user_num, User& user, Manager& manager);
-void User_function_record(Library& library, int& user_num, User& user, Manager& manager);
-void Adminmenu(Library& library, int& user_num, Manager& manager);
+void Usermenu(Library& library, Manager& manager);
+void User_function(Library& library,  User& user, Manager& manager);
+void User_function_borrow(Library& library, User& user, Manager& manager);
+void User_function_return(Library& library,  User& user, Manager& manager);
+void User_function_search(Library& library,  User& user, Manager& manager);
+void User_function_record(Library& library,  User& user, Manager& manager);
+void Adminmenu(Library& library, Manager& manager);
 
-void Adminmenu(Library& library, int& user_num, Manager& manager);
-void Admin_function(Library& library, int& user_num, Manager& manager);
-void Admin_function_item(Library& library, int& user_num, Manager& manager);
-void Admin_function_user(Library& library, int& user_num, Manager& manager);
-void Admin_function_book_add(Library& library, int& user_num, Manager& manager);
-void Admin_function_book_delete(Library& library, int& user_num, Manager& manager);
-void Admin_function_user_add(Library& library, int& user_num, Manager& manager);
-void Admin_function_user_delete(Library& library, int& user_num, Manager& manager);
+void Adminmenu(Library& library, Manager& manager);
+void Admin_function(Library& library, Manager& manager);
+void Admin_function_item(Library& library,  Manager& manager);
+void Admin_function_user(Library& library,  Manager& manager);
+void Admin_function_book_add(Library& library, Manager& manager);
+void Admin_function_book_delete(Library& library, Manager& manager);
+void Admin_function_user_add(Library& library, Manager& manager);
+void Admin_function_user_delete(Library& library, Manager& manager);
 string Toid(string a);
 int main()
 {
@@ -46,14 +46,14 @@ void Run()
     Library library;
     library.LoadBooksFromFile();
     library.LoadUsersFromFile();
+    library.LoadNumFromFile();
     Manager manager("MANAGER", " 00000", "111111", library);
-    int user_num = 0;
     while(!EXIT)
-    Set(library, user_num, manager);
+    Set(library, manager);
     return;
 }
 
-void Set(Library& library, int& user_num, Manager& manager)
+void Set(Library& library, Manager& manager)
 {
     system("cls");
     cout << "****************************************" << endl;
@@ -74,19 +74,19 @@ void Set(Library& library, int& user_num, Manager& manager)
     }
     else if (role == '1')
     {
-        Usermenu(library, user_num, manager);
+        Usermenu(library,manager);
     }
     else if (role == '2')
     {
-        Adminmenu(library, user_num, manager);
+        Adminmenu(library, manager);
     }
     else
     {
-        Set(library, user_num, manager);
+        Set(library, manager);
     }
 }
 
-void Adminmenu(Library& library, int& user_num, Manager& manager)
+void Adminmenu(Library& library, Manager& manager)
 {
     system("cls");
     cout << "****************************************" << endl;
@@ -113,17 +113,17 @@ void Adminmenu(Library& library, int& user_num, Manager& manager)
         if (name=="MANAGER"&&userid=="00000"&&password=="111111")
         {
             cout << "登陆成功" << endl;
-            Admin_function(library, user_num, manager);
+            Admin_function(library, manager);
         }
         else
         {
             cout << "用户名或密码错误，请重试" << endl;
-            Adminmenu(library, user_num, manager);
+            Adminmenu(library, manager);
         }
     }
 }
 
-void Admin_function(Library& library, int& user_num, Manager& manager)
+void Admin_function(Library& library, Manager& manager)
 {
     system("cls");
     cout << "****************************************" << endl;
@@ -135,11 +135,11 @@ void Admin_function(Library& library, int& user_num, Manager& manager)
     cin >> choice;
     if (choice == '1')
     {
-        Admin_function_item(library, user_num, manager);
+        Admin_function_item(library, manager);
     }
     else if (choice == '2')
     {
-        Admin_function_user(library, user_num, manager);
+        Admin_function_user(library, manager);
     }
     else if (choice == 'q'||choice=='Q')
 
@@ -151,12 +151,12 @@ void Admin_function(Library& library, int& user_num, Manager& manager)
     }
     else
     {
-        Admin_function(library, user_num, manager);
+        Admin_function(library, manager);
     }
     
 }
 
-void Admin_function_item(Library& library, int& user_num, Manager& manager)
+void Admin_function_item(Library& library, Manager& manager)
 {
     system("cls");
     cout << "****************************************" << endl;
@@ -168,11 +168,11 @@ void Admin_function_item(Library& library, int& user_num, Manager& manager)
     cin >> choice;
     if (choice == '1')
     {
-        Admin_function_book_add(library, user_num, manager);
+        Admin_function_book_add(library, manager);
     }
     else if (choice == '2')
     {
-        Admin_function_book_delete(library, user_num, manager);
+        Admin_function_book_delete(library, manager);
     }
     else if (choice == '3')
     {
@@ -188,7 +188,7 @@ void Admin_function_item(Library& library, int& user_num, Manager& manager)
     }
     else
     {
-        Admin_function_item(library, user_num, manager);
+        Admin_function_item(library, manager);
     }
 
     if (choice == '1' || choice == '2' || choice == '3')
@@ -199,11 +199,11 @@ void Admin_function_item(Library& library, int& user_num, Manager& manager)
         cin >> choice;
         if (choice == '1')
         {
-            Set(library, user_num, manager);
+            Set(library, manager);
         }
         if (choice == '2')
         {
-            Admin_function(library, user_num, manager);
+            Admin_function(library, manager);
         }
         else if (choice == 'q' || choice == 'Q')
         {
@@ -215,12 +215,12 @@ void Admin_function_item(Library& library, int& user_num, Manager& manager)
         }
         else
         {
-            Admin_function_item(library, user_num, manager);
+            Admin_function_item(library, manager);
         }
     }
 }
 
-void Admin_function_user(Library& library, int& user_num, Manager& manager)
+void Admin_function_user(Library& library, Manager& manager)
 {
     system("cls");
     cout << "****************************************" << endl;
@@ -232,11 +232,11 @@ void Admin_function_user(Library& library, int& user_num, Manager& manager)
     cin >> choice;
     if (choice == '1')
     {
-        Admin_function_user_add(library, user_num, manager);
+        Admin_function_user_add(library, manager);
     }
     else if (choice == '2')
     {
-        Admin_function_user_delete(library, user_num, manager);
+        Admin_function_user_delete(library, manager);
     }
     else if (choice == '3')
     {
@@ -251,7 +251,7 @@ void Admin_function_user(Library& library, int& user_num, Manager& manager)
     }
     else
     {
-        Admin_function_user(library, user_num, manager);
+        Admin_function_user(library, manager);
     }
 
     if (choice == '1' || choice == '2' || choice == '3')
@@ -262,11 +262,11 @@ void Admin_function_user(Library& library, int& user_num, Manager& manager)
         cin >> choice;
         if (choice == '1')
         {
-            Set(library, user_num, manager);
+            Set(library, manager);
         }
         if (choice == '2')
         {
-            Admin_function(library, user_num, manager);
+            Admin_function(library, manager);
         }
         else if (choice == 'q' || choice == 'Q')
         {
@@ -277,32 +277,30 @@ void Admin_function_user(Library& library, int& user_num, Manager& manager)
         }
         else
         {
-            Admin_function_user(library, user_num, manager);
+            Admin_function_user(library, manager);
         }
     }
 }
 
-void Admin_function_user_add(Library& library, int& user_num, Manager& manager)
+void Admin_function_user_add(Library& library, Manager& manager)
 {
     string name;
     string userid;
     string password="000000";
-    user_num++;
     cout << "请输入用户姓名:" << endl;
     cin >> name;
-    userid = Toid(to_string(user_num));
+    userid = Toid(to_string(library.Getuser_num()+1));
     User temp_user(name, userid, password);
     manager.Adduser(temp_user);
     cout << "添加成功" << endl;
     cout << "用户姓名:" << name << endl << "用户ID:" << userid << endl << "用户密码(默认):" << password << endl;
 }
 
-void Admin_function_user_delete(Library& library, int& user_num, Manager& manager)
+void Admin_function_user_delete(Library& library, Manager& manager)
 {
     string name;
     string userid;
     string password = "000000";
-    user_num++;
     cout << "请输入用户姓名:" << endl;
     cin >> name;
     cout << "请输入用户ID:" << endl;
@@ -320,7 +318,7 @@ void Admin_function_user_delete(Library& library, int& user_num, Manager& manage
     }
 }
 
-void Admin_function_book_add(Library& library, int& user_num, Manager& manager)
+void Admin_function_book_add(Library& library, Manager& manager)
 {
     string title;
     string isbn;
@@ -339,7 +337,7 @@ void Admin_function_book_add(Library& library, int& user_num, Manager& manager)
     cout << "添加成功！" << endl;
 }
 
-void Admin_function_book_delete(Library& library, int& user_num, Manager& manager)
+void Admin_function_book_delete(Library& library, Manager& manager)
 {
     string title;
     string isbn;
@@ -358,7 +356,7 @@ void Admin_function_book_delete(Library& library, int& user_num, Manager& manage
     cout << "删除成功！" << endl;
 }
 
-void Usermenu(Library& library, int& user_num,Manager& manager)
+void Usermenu(Library& library, Manager& manager)
 {
     system("cls");
     cout << "****************************************" << endl;
@@ -370,8 +368,6 @@ void Usermenu(Library& library, int& user_num,Manager& manager)
     cin >> choice;
     if (choice == '1')
     {
-
-        user_num++;
         string name;
         string userid;
         string password;
@@ -379,7 +375,7 @@ void Usermenu(Library& library, int& user_num,Manager& manager)
         cin >> name;
         cout << "请输入您的密码: " << endl;
         cin >> password;
-        userid = Toid(to_string(user_num));
+        userid = Toid(to_string(library.Getuser_num() + 1));
         User temp_user(name, userid, password);
         library.Adduser(temp_user);
         cout << "您的用户ID是:" << userid << endl;
@@ -389,11 +385,11 @@ void Usermenu(Library& library, int& user_num,Manager& manager)
         cin >> choice;
         if (choice == '1')
         {
-            Set(library, user_num,manager);
+            Set(library, manager);
         }
         else if (choice == '2')
         {
-            Usermenu(library, user_num,manager);
+            Usermenu(library, manager);
         }
         else if (choice == 'q' || choice == 'Q')
         {
@@ -404,14 +400,13 @@ void Usermenu(Library& library, int& user_num,Manager& manager)
         }
         else
         {
-            Usermenu(library, user_num, manager);
+            Usermenu(library, manager);
         }
 
 
     }
     else if (choice == '2')
     {
-        
             string name;
             string userid;
             string password;
@@ -425,12 +420,12 @@ void Usermenu(Library& library, int& user_num,Manager& manager)
             if (library.Isuser(temp_user))
             {
                 cout << "登陆成功" << endl;
-                User_function(library, user_num, library.Finduser(temp_user), manager);
+                User_function(library, library.Finduser(temp_user), manager);
             }
             else
             {
                 cout << "用户名或密码错误，请重试" << endl;
-                Usermenu(library, user_num, manager);
+                Usermenu(library, manager);
             }
         
     }
@@ -454,9 +449,9 @@ void Usermenu(Library& library, int& user_num,Manager& manager)
             char choice;
             cin >> choice;
             if (choice == '1')
-                Set(library, user_num, manager);
+                Set(library, manager);
             else if (choice == '2')
-                Usermenu(library, user_num, manager);
+                Usermenu(library, manager);
             else if (choice == 'q' || choice == 'Q')
             {
                 library.SaveBooksToFile();
@@ -466,13 +461,13 @@ void Usermenu(Library& library, int& user_num,Manager& manager)
             }
             else
             {
-                Usermenu(library, user_num, manager);
+                Usermenu(library, manager);
             }
         }
         else
         {
             cout << "未找到用户，请核对用户信息" << endl;
-            Usermenu(library, user_num, manager);
+            Usermenu(library, manager);
         }
     }
     else if (choice == 'q' || choice == 'Q')
@@ -484,12 +479,12 @@ void Usermenu(Library& library, int& user_num,Manager& manager)
     }
     else
     {
-        Usermenu(library, user_num, manager);
+        Usermenu(library, manager);
     }
 
 }
 
-void User_function(Library& library, int& user_num, User& user,Manager& manager)
+void User_function(Library& library, User& user,Manager& manager)
 {
     system("cls");
     cout << "****************************************" << endl;
@@ -501,19 +496,19 @@ void User_function(Library& library, int& user_num, User& user,Manager& manager)
     cin >> choice;
     if (choice == '1')
     {
-        User_function_borrow(library, user_num, user,manager);
+        User_function_borrow(library, user,manager);
     }
     else if (choice == '2')
     {
-        User_function_return(library, user_num, user,manager);
+        User_function_return(library, user,manager);
     }
     else if (choice == '3')
     {
-        User_function_search(library, user_num, user,manager);
+        User_function_search(library, user,manager);
     }
     else if (choice == '4')
     {
-        User_function_record(library, user_num, user,manager);
+        User_function_record(library, user,manager);
     }
     else if (choice == 'q' || choice == 'Q')
     {
@@ -524,13 +519,13 @@ void User_function(Library& library, int& user_num, User& user,Manager& manager)
     }
     else
     {
-        User_function(library, user_num, user, manager);
+        User_function(library, user, manager);
     }
 }
 
 
 
-void User_function_borrow(Library& library, int& user_num, User& user,Manager& manager)
+void User_function_borrow(Library& library, User& user,Manager& manager)
 {
     User& temp_user = library.Finduser(user);
     string title;
@@ -553,11 +548,11 @@ void User_function_borrow(Library& library, int& user_num, User& user,Manager& m
         char choice;
         cin >> choice;
         if (choice == '1')
-            Set(library, user_num,manager);
+            Set(library, manager);
         else if (choice == '2')
-            Usermenu(library, user_num,manager);
+            Usermenu(library, manager);
         else if (choice == '3')
-            User_function(library, user_num, user,manager);
+            User_function(library, user,manager);
         else if (choice == 'q' || choice == 'Q')
         {
             library.SaveBooksToFile();
@@ -567,7 +562,7 @@ void User_function_borrow(Library& library, int& user_num, User& user,Manager& m
         }
         else
         {
-            User_function(library, user_num, user, manager);
+            User_function(library, user, manager);
         }
     }
     else
@@ -578,11 +573,11 @@ void User_function_borrow(Library& library, int& user_num, User& user,Manager& m
         char choice;
         cin >> choice;
         if (choice == '1')
-            Set(library, user_num,manager);
+            Set(library, manager);
         else if (choice == '2')
-            Usermenu(library, user_num,manager);
+            Usermenu(library, manager);
         else if (choice == '3')
-            User_function(library, user_num, user,manager);
+            User_function(library, user,manager);
         else if (choice == 'q' || choice == 'Q')
         {
             library.SaveBooksToFile();
@@ -592,13 +587,13 @@ void User_function_borrow(Library& library, int& user_num, User& user,Manager& m
         }
         else
         {
-            User_function(library, user_num, user, manager);
+            User_function(library, user, manager);
         }
 
     }
 }
 
-void User_function_return(Library& library, int& user_num, User& user,Manager& manager)
+void User_function_return(Library& library, User& user,Manager& manager)
 {
     User& temp_user = library.Finduser(user);
     string title;
@@ -621,11 +616,11 @@ void User_function_return(Library& library, int& user_num, User& user,Manager& m
         char choice;
         cin >> choice;
         if (choice == '1')
-            Set(library, user_num, manager);
+            Set(library, manager);
         else if (choice == '2')
-            Usermenu(library, user_num, manager);
+            Usermenu(library, manager);
         else if (choice == '3')
-            User_function(library, user_num, user, manager);
+            User_function(library, user, manager);
         else if (choice == 'q' || choice == 'Q')
         {
             library.SaveBooksToFile();
@@ -635,7 +630,7 @@ void User_function_return(Library& library, int& user_num, User& user,Manager& m
         }
         else
         {
-            User_function(library, user_num, user, manager);
+            User_function(library, user, manager);
         }
 
 
@@ -649,11 +644,11 @@ void User_function_return(Library& library, int& user_num, User& user,Manager& m
         char choice;
         cin >> choice;
         if (choice == '1')
-            Set(library, user_num, manager);
+            Set(library, manager);
         else if (choice == '2')
-            Usermenu(library, user_num, manager);
+            Usermenu(library, manager);
         else if (choice == '3')
-            User_function(library, user_num, user, manager);
+            User_function(library, user, manager);
         else if (choice == 'q' || choice == 'Q')
         {
             library.SaveBooksToFile();
@@ -663,12 +658,12 @@ void User_function_return(Library& library, int& user_num, User& user,Manager& m
         }
         else
         {
-            User_function(library, user_num, user, manager);
+            User_function(library, user, manager);
         }
     }
 }
 
-void User_function_search(Library& library, int& user_num, User& user,Manager& manager)
+void User_function_search(Library& library, User& user,Manager& manager)
 {
     string keywords;
     system("cls");
@@ -685,11 +680,11 @@ void User_function_search(Library& library, int& user_num, User& user,Manager& m
         char choice;
         cin >> choice;
         if (choice == '1')
-            Set(library, user_num, manager);
+            Set(library, manager);
         else if (choice == '2')
-            Usermenu(library, user_num, manager);
+            Usermenu(library, manager);
         else if (choice == '3')
-            User_function(library, user_num, user, manager);
+            User_function(library, user, manager);
         else if (choice == 'q' || choice == 'Q')
         {
             library.SaveBooksToFile();
@@ -699,7 +694,7 @@ void User_function_search(Library& library, int& user_num, User& user,Manager& m
         }
         else
         {
-            User_function(library, user_num, user, manager);
+            User_function(library, user, manager);
         }
     }
     else
@@ -716,11 +711,11 @@ void User_function_search(Library& library, int& user_num, User& user,Manager& m
         char choice;
         cin >> choice;
         if (choice == '1')
-            Set(library, user_num, manager);
+            Set(library, manager);
         else if (choice == '2')
-            Usermenu(library, user_num, manager);
+            Usermenu(library, manager);
         else if (choice == '3')
-            User_function(library, user_num, user, manager);
+            User_function(library, user, manager);
         else if (choice == 'q' || choice == 'Q')
         {
             library.SaveBooksToFile();
@@ -730,12 +725,12 @@ void User_function_search(Library& library, int& user_num, User& user,Manager& m
         }
         else
         {
-            User_function(library, user_num, user, manager);
+            User_function(library, user, manager);
         }
     }
 }
 
-void User_function_record(Library& library, int& user_num, User& user,Manager& manager)
+void User_function_record(Library& library, User& user,Manager& manager)
 {
 
     user.Display();
@@ -745,11 +740,11 @@ void User_function_record(Library& library, int& user_num, User& user,Manager& m
     char choice;
     cin >> choice;
     if (choice == '1')
-        Set(library, user_num, manager);
+        Set(library, manager);
     else if (choice == '2')
-        Usermenu(library, user_num, manager);
+        Usermenu(library, manager);
     else if (choice == '3')
-        User_function(library, user_num, user, manager);
+        User_function(library, user, manager);
     else if (choice == 'q' || choice == 'Q')
     {
         library.SaveBooksToFile();
@@ -759,7 +754,7 @@ void User_function_record(Library& library, int& user_num, User& user,Manager& m
     }
     else
     {
-        User_function(library, user_num, user, manager);
+        User_function(library, user, manager);
     }
 
 }

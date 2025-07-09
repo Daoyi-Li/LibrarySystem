@@ -3,7 +3,7 @@
 #include <algorithm>
 using namespace std;
 
-Library::Library() {};
+Library::Library() :user_num(0) {}
 
 Library::~Library() 
 {
@@ -11,7 +11,7 @@ Library::~Library()
 		delete item;
 	}
 	items.clear();
-};
+}
 
 void Library::Additem_Admin(Item* item)
 {
@@ -50,7 +50,9 @@ void Library::Adduser_Admin(User& user)
 {
 	users.push_back(user);
 	cout << "添加用户成功" << endl;
+	user_num++;
 	SaveUsersToFile();
+	SaveNumToFile();
 }
 
 void Library::Deleteuser_Admin(User& user)
@@ -72,9 +74,9 @@ void Library::Deleteuser_Admin(User& user)
 
 void Library::Displayuser_Admin()
 {
-	for (int i = 0;i < users.size();++i)
+	for (int i = 0; i < users.size();++i)
 	{
-		cout << i<<"."<<"姓名:"<<users[i].Get_name() << " 用户ID:" << users[i].Get_userid() << endl;
+		cout << i+1<<"."<<"姓名:"<<users[i].Get_name() << " 用户ID:" << users[i].Get_userid() << endl;
 	}
 }
 
@@ -82,6 +84,8 @@ void Library::Adduser(User& user)
 {
 	users.push_back(user);
 	cout << "注册成功" << endl;
+	user_num++;
+	SaveNumToFile();
 }
 
 void Library::Deleteuser(User& user)
@@ -191,6 +195,14 @@ void Library::LoadUsersFromFile() {
 		users.push_back(User(name, id, password));
 	}
 	file.close();
+	int maxId = 0;
+	for (User& user : users) {
+		string idStr = user.Get_userid();
+		int idNum = stoi(idStr);
+		if (idNum > maxId) maxId = idNum;
+	}
+	user_num = maxId;  
+	SaveNumToFile(); 
 }
 
 void Library::SaveBooksToFile() {
@@ -227,4 +239,34 @@ void Library::LoadBooksFromFile() {
 		items.push_back(new Book (title, isbn, author, hasEbook));
 	}
 	file.close();
+}
+
+void Library::SaveNumToFile()
+{
+	ofstream file(maxIdFilePath);
+	if (file.good())
+	{
+		file << user_num;
+	}
+	file.close();
+}
+
+void Library::LoadNumFromFile()
+{
+	ifstream file(maxIdFilePath);
+	if (file.good())
+	{
+		file >> user_num;
+	}
+	file.close();
+}
+
+int Library::Getitem_num()
+{
+	return items.size();
+}
+
+int Library::Getuser_num()
+{
+	return user_num;
 }
