@@ -59,7 +59,7 @@ void Library::Deleteuser_Admin(User& user)
 {
 	for (int i = 0;i < users.size();++i)
 	{
-		if (user.Get_name() == users[i].Get_name() && user.Get_userid() == users[i].Get_userid())
+		if (user==users[i])
 		{
 			cout << "删除用户成功" << endl;
 			users.erase(users.begin() + i);
@@ -92,10 +92,11 @@ void Library::Deleteuser(User& user)
 {
 	for (int i = 0;i < users.size();++i)
 	{
-		if (user.Get_name() == users[i].Get_name() && user.Get_userid() == users[i].Get_userid())
+		if (user==users[i])
 		{
 			cout << "注销成功" << endl;
 			users.erase(users.begin() + i);
+			SaveUsersToFile();
 			return;
 		}
 
@@ -108,7 +109,7 @@ bool Library::Isuser(User& user)
 {
 	for (int i = 0;i < users.size();++i)
 	{
-		if (user.Get_name() == users[i].Get_name() && user.Get_userid() == users[i].Get_userid() && user.Get_password () == users[i].Get_password())
+		if (user==users[i])
 		{
 			return 1;
 		}
@@ -120,7 +121,7 @@ User& Library::Finduser(User& user)
 {
 	for (int i = 0;i < users.size();++i)
 	{
-		if (user.Get_name() == users[i].Get_name() && user.Get_userid() == users[i].Get_userid())
+		if (user==users[i])
 		{
 			
 	        return users[i];

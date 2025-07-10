@@ -20,6 +20,7 @@ void Item::Display()
     {
         cout << "是否有电子书: 否" << endl;
     }
+    cout << "############################"<< endl;
 }
 
 string Item::Get_id()

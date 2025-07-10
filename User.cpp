@@ -63,3 +63,8 @@ void User::Display()
 		BorrowRecord[i]->Display();
 	}
 }
+
+bool User::operator==(User& user)
+{
+	return (Get_name() == user.Get_name() && Get_userid() == user.Get_userid() && Get_password() == user.Get_password());
+}

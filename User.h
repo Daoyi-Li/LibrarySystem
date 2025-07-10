@@ -23,6 +23,7 @@ public:
 	virtual string Get_userid();
 	virtual string Get_password();
 	int Get_Count();
+	bool operator == (User & user);
 	
 };
 
