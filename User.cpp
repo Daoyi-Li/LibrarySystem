@@ -15,7 +15,6 @@ User::~User(){}
 void User::Borrow(Item* item)
 {
 	BorrowRecord.push_back(item);
-	
 }
 
 void User::Return(Item* item)
@@ -67,4 +66,20 @@ void User::Display()
 bool User::operator==(User& user)
 {
 	return (Get_name() == user.Get_name() && Get_userid() == user.Get_userid() && Get_password() == user.Get_password());
+}
+
+void User::Display_borrowrecord()
+{
+	for (int i = 0;i < BorrowRecord.size();++i)
+	{
+		cout << BorrowRecord[i]->Get_name() <<","
+			<< BorrowRecord[i]->Get_id() << ","
+			<< BorrowRecord[i]->Get_author() <<","
+			<< BorrowRecord[i]->Get_flag() << endl;
+	}
+}
+
+vector<Item*> User::GetBorrowRecords()
+{
+	return BorrowRecord;
 }

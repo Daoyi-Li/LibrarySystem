@@ -22,6 +22,7 @@ private:
 	string usersFilePath = "users.txt";
 	string booksFilePath = "books.txt";
 	string maxIdFilePath = "max_user_id.txt";
+	string borrowrecordFilePath = "borrow_record.txt";
 	int user_num;
 	
 public:
@@ -43,7 +44,7 @@ public:
 	bool Isuser(User& user);
 
 	vector<Item*> Search(string& keywords);
-
+	vector<User> GetUser();
 
 	void SaveUsersToFile();  
 	void LoadUsersFromFile();
@@ -52,6 +53,7 @@ public:
 	void LoadBooksFromFile();
 	void SaveNumToFile();
 	void LoadNumFromFile();
+	void LoadBorrowRecords();
 
 	int Getitem_num();
 	int Getuser_num();

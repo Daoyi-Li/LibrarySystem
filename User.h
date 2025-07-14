@@ -19,12 +19,13 @@ public:
 	void Borrow(Item* item);
 	void Return(Item* item);
 	void Display();
+	void Display_borrowrecord();
+	vector <Item*> GetBorrowRecords();
 	virtual string Get_name();
 	virtual string Get_userid();
 	virtual string Get_password();
 	int Get_Count();
 	bool operator == (User & user);
-	
 };
 
 #endif 

@@ -179,31 +179,95 @@ void Library::SaveUsersToFile() {
 		}
 		file.close();
 	}
+
+	ofstream file1(borrowrecordFilePath);
+	
+	if (file1.good())
+	{
+		for (User& user : users)
+		{
+			for (Item *& item : user.GetBorrowRecords()) {  
+				file1 << user.Get_userid() << ","
+					<< item->Get_name() << ","
+					<< item->Get_id() << ","
+					<< item->Get_author() << ","
+					<< item->Get_flag() << endl;
+			}
+			
+		}
+	}
+	file1.close();
 }
+
 void Library::LoadUsersFromFile() {
 	ifstream file(usersFilePath);
-	if (!file.is_open()) return;
+	if (file.is_open())
+	{
+		string line;
+		while (getline(file, line)) {
+			string name, id, password;
+			size_t comma1 = line.find(',');
+			name = line.substr(0, comma1);
+			size_t comma2 = line.find(',', comma1 + 1);
+			if (comma2 == string::npos) continue;
+			id = line.substr(comma1 + 1, comma2 - comma1 - 1);
+			password = line.substr(comma2 + 1);
+			users.push_back(User(name, id, password));
+		}
+		file.close();
+		int maxId = 0;
+		for (User& user : users) {
+			string idStr = user.Get_userid();
+			int idNum = stoi(idStr);
+			if (idNum > maxId) maxId = idNum;
+		}
+		user_num = maxId;
+		SaveNumToFile();
+	}
+}
+
+void Library::LoadBorrowRecords() {
+	ifstream recordFile(borrowrecordFilePath);
+	if (!recordFile.good()) return;
 
 	string line;
-	while (getline(file, line)) {
-		string name, id, password;
+	while (getline(recordFile, line)) {
 		size_t comma1 = line.find(',');
-		name = line.substr(0, comma1);
 		size_t comma2 = line.find(',', comma1 + 1);
-		if (comma2 == string::npos) continue;
-		id = line.substr(comma1 + 1, comma2 - comma1 - 1);
-		password = line.substr(comma2 + 1);
-		users.push_back(User(name, id, password));
+		size_t comma3 = line.find(',', comma2 + 1);
+		size_t comma4 = line.find(',', comma3 + 1);
+		if (comma1 == string::npos || comma2 == string::npos ||
+			comma3 == string::npos || comma4 == string::npos) {
+			continue;  
+		}
+
+		string userid = line.substr(0, comma1);
+		string name = line.substr(comma1 + 1, comma2 - comma1 - 1);
+		string id = line.substr(comma2 + 1, comma3 - comma2 - 1);
+		string author = line.substr(comma3 + 1, comma4 - comma3 - 1);
+		bool flag = (line.substr(comma4 + 1) == "1");
+
+		// 1. 查找对应的用户
+		User* user = nullptr;
+		for (auto& u : users) {
+			if (u.Get_userid() == userid) {
+				user = &u;
+				break;
+			}
+		}
+		if (!user) continue;  
+		Item* targetItem = nullptr;
+		for (Item* item : items) {
+			if (item->Get_name() == name && item->Get_id() == id &&
+				item->Get_author() == author && item->Get_flag() == flag) {
+				targetItem = item;
+				break;
+			}
+		}
+		if (!targetItem) continue;  
+		user->Borrow(targetItem); 
 	}
-	file.close();
-	int maxId = 0;
-	for (User& user : users) {
-		string idStr = user.Get_userid();
-		int idNum = stoi(idStr);
-		if (idNum > maxId) maxId = idNum;
-	}
-	user_num = maxId;  
-	SaveNumToFile(); 
+	recordFile.close();
 }
 
 void Library::SaveBooksToFile() {

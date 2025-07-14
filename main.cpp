@@ -49,6 +49,7 @@ void Run()
     library.LoadBooksFromFile();
     library.LoadUsersFromFile();
     library.LoadNumFromFile();
+    library.LoadBorrowRecords();
     Manager manager("MANAGER", " 00000", "111111", library);
     while(!EXIT)
     Set(library, manager);
